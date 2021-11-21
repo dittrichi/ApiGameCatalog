@@ -2,7 +2,7 @@
 
 namespace ApiGameCatalog.ViewModel.Users
 {
-    public class RegisterViewModelInput
+    public class RegisterInputModel
     {
         [Required(ErrorMessage = "Login cannot be empty")]
         public string Login { get; set; }

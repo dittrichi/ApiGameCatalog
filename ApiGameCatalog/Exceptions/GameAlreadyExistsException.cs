@@ -2,9 +2,9 @@
 
 namespace ApiGameCatalog.Exceptions
 {
-    public class GameAlreadyExistentException : Exception
+    public class GameAlreadyExistsException : Exception
     {
-        public GameAlreadyExistentException()
+        public GameAlreadyExistsException()
             : base("This game already exists")
         { }
     }

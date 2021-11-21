@@ -53,7 +53,7 @@ namespace ApiGameCatalog.Services
             var entityGame = await _gameRepository.Retrieve(game.Name, game.Publisher);
 
             if (entityGame.Count > 0)
-                throw new GameAlreadyExistentException();
+                throw new GameAlreadyExistsException();
 
             var gameInsert = new Game
             {

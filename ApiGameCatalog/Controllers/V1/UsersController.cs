@@ -1,13 +1,10 @@
 ﻿using ApiGameCatalog.Configurations;
-using ApiGameCatalog.Entities;
-using ApiGameCatalog.Repositories;
+using ApiGameCatalog.Exceptions;
 using ApiGameCatalog.Services;
-using ApiGameCatalog.ViewModel;
 using ApiGameCatalog.ViewModel.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ApiGameCatalog.Controllers.V1
@@ -29,47 +26,34 @@ namespace ApiGameCatalog.Controllers.V1
         }
 
         
-        [HttpGet("{idUser:guid}")]
-        public async Task<ActionResult<List<LoginViewModelInput>>> Retrieve([FromRoute] Guid idUser)
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult<LoginInputModel>> Login(LoginInputModel loginViewModelInput)
         {
-            var user = await _userService.Retrieve(idUser);
-            
-            if (user == null)
-                return BadRequest("An error has ocuured while trying to login");
-
-            var userViewModelOutput = new UserViewModelOutput()
+            try
             {
-                Id = user.Id,
-                Login = user.Login,
-                Name = user.Name,
-                Email = user.Email
-            };
-
-            var token = _authenticationService.GenerateToken(userViewModelOutput);
-
-            return Ok(new
+                var user = await _userService.Login(loginViewModelInput);
+                var token = _authenticationService.GenerateToken(user);
+                return Ok(new
+                {
+                    Token = token,
+                    User = user
+                });
+            }
+            catch(LoginErrorException ex)
             {
-                Token = token,
-                User = userViewModelOutput
-            });
+                return NotFound("Login or Password incorrect");
+            }            
         }
 
         [HttpPost]
-        public async Task<ActionResult<RegisterViewModelInput>> RegisterUser([FromBody] RegisterViewModelInput registroViewModelInput)
+        [Route("register")]
+        public async Task<ActionResult<RegisterInputModel>> RegisterUser([FromBody] RegisterInputModel registroViewModelInput)
         {
             try
             {
                 var user = await _userService.RegisterUser(registroViewModelInput);
                 return Ok(user);
-
-                /*var user = new User();
-                user.Login = registroViewModelInput.Login;
-                user.Name = registroViewModelInput.Name;
-                user.Email = registroViewModelInput.Email;
-                user.Password = registroViewModelInput.Password;
-
-                await _userRepository.Create(user);
-                return Ok(user);*/
             }
             catch (Exception ex)
             {

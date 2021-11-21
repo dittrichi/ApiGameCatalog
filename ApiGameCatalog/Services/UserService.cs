@@ -1,10 +1,9 @@
 ﻿using ApiGameCatalog.Entities;
+using ApiGameCatalog.Exceptions;
 using ApiGameCatalog.Repositories;
 using ApiGameCatalog.ViewModel;
 using ApiGameCatalog.ViewModel.Users;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiGameCatalog.Services
@@ -22,14 +21,12 @@ namespace ApiGameCatalog.Services
             _userRepository.Dispose();
         }
 
-        public async Task<UserViewModelOutput> RegisterUser(RegisterViewModelInput registroViewModelInput)
-        {
-            //TODO Add already existent user logic
-            //var entityUser = await _userRepository.RetrieveUser(registroViewModelInput.Name, registroViewModelInput.Login);
-            
-            //TODO adjust all exceptions
-            //if (entityUser.Count > 0)
-            //    throw new Exception();
+        public async Task<UserViewModelOutput> RegisterUser(RegisterInputModel registroViewModelInput)
+        {            
+            var user = await _userRepository.RetrieveUser(registroViewModelInput.Login);
+                        
+            if (user != null)
+                throw new UserAlreadyExistsException();
 
             var userRegister = new User
             {
@@ -51,12 +48,15 @@ namespace ApiGameCatalog.Services
             };
         }
 
-        public async Task<UserViewModelOutput> Retrieve(Guid idUser)
+        public async Task<UserViewModelOutput> Login(LoginInputModel loginViewModelInput)
         {
-            var user = await _userRepository.RetrieveUser(idUser);
+            var user = await _userRepository.RetrieveUser(loginViewModelInput.Login);
 
             if (user == null)
-                return null;
+                throw new LoginErrorException();
+
+            if (user.Password != loginViewModelInput.Password)
+                throw new LoginErrorException();
 
             return new UserViewModelOutput
             {

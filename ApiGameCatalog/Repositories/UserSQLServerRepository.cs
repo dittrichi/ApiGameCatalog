@@ -31,11 +31,11 @@ namespace ApiGameCatalog.Repositories
             sqlConnection?.Dispose();
         }
 
-        public async Task<User> RetrieveUser(Guid id)
+        public async Task<User> RetrieveUser(string login)
         {
             User user = null;
 
-            var command = $"select * from Users where Id = '{id}'";
+            var command = $"select * from Users where Login = '{login}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);

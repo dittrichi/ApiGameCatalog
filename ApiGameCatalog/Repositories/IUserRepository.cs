@@ -7,6 +7,6 @@ namespace ApiGameCatalog.Repositories
     public interface IUserRepository : IDisposable
     {
         Task Create(User user);
-        Task<User> RetrieveUser(Guid id);
+        Task<User> RetrieveUser(string login);
     }
 }

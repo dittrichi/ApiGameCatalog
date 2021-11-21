@@ -59,7 +59,7 @@ namespace ApiGameCatalog.Controllers.V1
                 var game = await _gameService.Insert(gameInputModel);
                 return Ok(game);
             }
-            catch(GameAlreadyExistentException ex)
+            catch(GameAlreadyExistsException ex)
             {
                 return UnprocessableEntity("A game with this name is already existent");
             }            
