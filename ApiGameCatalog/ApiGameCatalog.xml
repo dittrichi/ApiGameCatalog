@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ApiGameCatalog</name>
+    </assembly>
+    <members>
+        <member name="M:ApiGameCatalog.Controllers.V1.GamesController.Retrieve(System.Int32,System.Int32)">
+            <summary>
+            Retrieve all games breaking by pages
+            </summary>
+            <remarks>
+            It's not possible retrieve games without page breaks
+            </remarks>
+            <param name="page">Defines what page will be retrieved. Min. 1</param>
+            <param name="amount">Defines maximum registers returned by page. Min. 1, Max. 50</param>
+            <response code="200">Returns game list</response>
+            <response code="204">When no game exists</response>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
