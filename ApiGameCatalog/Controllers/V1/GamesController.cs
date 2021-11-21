@@ -2,6 +2,7 @@
 using ApiGameCatalog.InputModel;
 using ApiGameCatalog.Services;
 using ApiGameCatalog.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace ApiGameCatalog.Controllers.V1
 {
     [Route("api/V1/[controller]")]
     [ApiController]
+    [Authorize]
     public class GamesController : ControllerBase
     {
         private readonly IGameService _gameService;

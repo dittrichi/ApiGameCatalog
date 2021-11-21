@@ -49,7 +49,11 @@ namespace ApiGameCatalog
             #endregion
 
 
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                 {
+                     options.SuppressModelStateInvalidFilter = true;
+                 });
             services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
