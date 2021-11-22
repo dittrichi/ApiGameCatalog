@@ -40,6 +40,9 @@ namespace ApiGameCatalog
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserSQLServerRepository>();
 
+            services.AddScoped<IPublisherService, PublisherService>();
+            services.AddScoped<IPublisherRepository, PublisherSQLServerRepository>();
+
             services.AddScoped<IAuthenticationService, JwtService>();
 
             #region LifeCycle

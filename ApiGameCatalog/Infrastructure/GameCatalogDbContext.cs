@@ -13,8 +13,10 @@ namespace ApiGameCatalog.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new PublisherMapping());
             modelBuilder.ApplyConfiguration(new GameMapping());
             modelBuilder.ApplyConfiguration(new UserMapping());
+            
             base.OnModelCreating(modelBuilder);
         }
 

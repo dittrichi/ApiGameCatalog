@@ -89,8 +89,7 @@ namespace ApiGameCatalog.Controllers.V1
                 await _gameService.Update(idGame, price);
                 return Ok();
             }
-            //catch(GameNotFoundException ex)
-            catch (Exception ex)
+            catch(GameNotFoundException ex)           
             {
                 return NotFound("This game doesn't exists");
             }            
