@@ -24,7 +24,7 @@ namespace ApiGameCatalog.Repositories
 
         public async Task Insert(Game game)
         {
-            var command = $"insert Games (Id, Name, Publisher, Price) values('{game.Id}','{game.Name}','{game.Publisher}','{game.Price.ToString().Replace(",",".")}')";
+            var command = $"insert Games (Id, Name, PublisherId, Price) values('{game.Id}','{game.Name}','{game.PublisherId}','{game.Price.ToString().Replace(",",".")}')";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
@@ -57,7 +57,7 @@ namespace ApiGameCatalog.Repositories
                 {
                     Id = (Guid)sqlDataReader["Id"],
                     Name = (string)sqlDataReader["Name"],
-                    Publisher = (string)sqlDataReader["Publisher"],
+                    PublisherId = (Guid)sqlDataReader["PublisherId"],
                     Price = (double)sqlDataReader["Price"]
                 }); 
             }
@@ -67,11 +67,11 @@ namespace ApiGameCatalog.Repositories
             return games;
         }
 
-        public async Task<List<Game>> Retrieve(string name, string publisher)
+        public async Task<List<Game>> Retrieve(string name, Guid publisherId)
         {
             var games = new List<Game>();
 
-            var command = $"select * from Games where Name ='{name}' and Publisher ='{publisher}'";
+            var command = $"select * from Games where Name ='{name}' and PublisherId ='{publisherId}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
@@ -83,7 +83,7 @@ namespace ApiGameCatalog.Repositories
                 {
                     Id = (Guid)sqlDataReader["Id"],
                     Name = (string)sqlDataReader["Name"],
-                    Publisher = (string)sqlDataReader["Publisher"],
+                    PublisherId = (Guid)sqlDataReader["PublisherId"],
                     Price = (double)sqlDataReader["Price"]
                 });
             }
@@ -108,7 +108,7 @@ namespace ApiGameCatalog.Repositories
                 {
                     Id = (Guid)sqlDataReader["Id"],
                     Name = (string)sqlDataReader["Name"],
-                    Publisher = (string)sqlDataReader["Publisher"],
+                    PublisherId = (Guid)sqlDataReader["PublisherId"],
                     Price = (double)sqlDataReader["Price"]
                 };
             }
@@ -120,7 +120,7 @@ namespace ApiGameCatalog.Repositories
 
         public async Task Update(Game game)
         {
-            var command = $"update Games set Name = '{game.Name}', Publisher = '{game.Publisher}', Price = '{game.Price.ToString().Replace(",", ".")}' where Id = '{game.Id}'";
+            var command = $"update Games set Name = '{game.Name}', PublisherId = '{game.PublisherId}', Price = '{game.Price.ToString().Replace(",", ".")}' where Id = '{game.Id}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);

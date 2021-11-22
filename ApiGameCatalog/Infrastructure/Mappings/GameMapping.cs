@@ -11,8 +11,8 @@ namespace ApiGameCatalog.Infrastructure.Mappings
             builder.ToTable("Games");
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Property(p => p.Name);
-            builder.Property(p => p.Publisher);
+            builder.Property(p => p.Name);            
+            builder.HasOne(p => p.Publisher).WithMany().HasForeignKey(fk => fk.PublisherId);
             builder.Property(p => p.Price);
         }
     }

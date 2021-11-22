@@ -27,7 +27,7 @@ namespace ApiGameCatalog.Services
             {
                 Id = game.Id,
                 Name = game.Name,
-                Publisher = game.Publisher,
+                PublisherID = game.PublisherId,
                 Price = game.Price
             }).ToList();
         }
@@ -43,14 +43,14 @@ namespace ApiGameCatalog.Services
             {
                 Id = game.Id,
                 Name = game.Name,
-                Publisher = game.Publisher,
+                PublisherID = game.PublisherId,
                 Price = game.Price
             };
         }
 
         public async Task<GameViewModel> Insert(GameInputModel game)
         {
-            var entityGame = await _gameRepository.Retrieve(game.Name, game.Publisher);
+            var entityGame = await _gameRepository.Retrieve(game.Name, game.PublisherId);
 
             if (entityGame.Count > 0)
                 throw new GameAlreadyExistsException();
@@ -59,7 +59,7 @@ namespace ApiGameCatalog.Services
             {
                 Id = Guid.NewGuid(),
                 Name = game.Name,
-                Publisher = game.Publisher,
+                PublisherId = game.PublisherId,
                 Price = game.Price
             };
 
@@ -69,7 +69,7 @@ namespace ApiGameCatalog.Services
             {
                 Id = gameInsert.Id,
                 Name = game.Name,
-                Publisher = game.Publisher,
+                PublisherID = game.PublisherId,
                 Price = game.Price
             };
         }
@@ -82,7 +82,7 @@ namespace ApiGameCatalog.Services
                 throw new GameNotFoundException();
 
             entityGame.Name = game.Name;
-            entityGame.Publisher = game.Publisher;
+            entityGame.PublisherId = game.PublisherId;
             entityGame.Price = game.Price;
 
             await _gameRepository.Update(entityGame);

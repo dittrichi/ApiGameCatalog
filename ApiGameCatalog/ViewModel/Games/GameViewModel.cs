@@ -6,7 +6,8 @@ namespace ApiGameCatalog.ViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Publisher { get; set; } 
+        public Guid PublisherID { get; set; }
+        public virtual string Publisher { get; set; } 
         public double Price{ get; set; }
     }
 }
