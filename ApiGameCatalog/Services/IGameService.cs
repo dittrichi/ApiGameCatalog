@@ -10,6 +10,7 @@ namespace ApiGameCatalog.Services
     {
         Task<List<GameViewModel>> Retrieve(int page, int amount);
         Task<GameViewModel> Retrieve(Guid id);
+        Task<List<GameViewModel>> RetrieveByPublisher(Guid punlisherId);
         Task<GameViewModel> Insert(GameInputModel game);
         Task Update(Guid id, GameInputModel game);
         Task Update(Guid id, double price);

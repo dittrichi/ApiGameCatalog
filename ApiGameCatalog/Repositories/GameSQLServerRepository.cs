@@ -42,10 +42,37 @@ namespace ApiGameCatalog.Repositories
             await sqlConnection.CloseAsync();
         }
 
+        public async Task<Game> Retrieve(string name, Guid publisherId)
+        {
+            Game game = null;
+
+            var command = $"select * from Games where  Name = '{name}' and PublisherId = '{publisherId}'";
+
+            await sqlConnection.OpenAsync();
+            SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
+            SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
+
+            while (sqlDataReader.Read())
+            {
+                game = new Game
+                {
+                    Id = (Guid)sqlDataReader["Id"],
+                    Name = (string)sqlDataReader["Name"],
+                    PublisherId = (Guid)sqlDataReader["PublisherId"],
+                    Publisher = new Publisher { Id = (Guid)sqlDataReader["PublisherId"], Name = (string)sqlDataReader["PublisherName"] },
+                    Price = (double)sqlDataReader["Price"]
+                };
+            }
+
+            await sqlConnection.CloseAsync();
+
+            return game;
+        }
+
         public async Task<List<Game>> Retrieve(int page, int amount)
         {
             var games = new List<Game>();
-            var command = $"select * from Games order by id offset {((page - 1) * amount)} rows fetch next {amount} rows only";
+            var command = $"Select Games.Id, Games.Name, Games.PublisherId, Games.Price, Publishers.Name as 'PublisherName' from Games inner join Publishers on Games.PublisherId = Publishers.Id order by id offset {((page - 1) * amount)} rows fetch next {amount} rows only";                           
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
@@ -58,6 +85,7 @@ namespace ApiGameCatalog.Repositories
                     Id = (Guid)sqlDataReader["Id"],
                     Name = (string)sqlDataReader["Name"],
                     PublisherId = (Guid)sqlDataReader["PublisherId"],
+                    Publisher = new Publisher { Id = (Guid)sqlDataReader["PublisherId"], Name = (string)sqlDataReader["PublisherName"] },
                     Price = (double)sqlDataReader["Price"]
                 }); 
             }
@@ -67,11 +95,11 @@ namespace ApiGameCatalog.Repositories
             return games;
         }
 
-        public async Task<List<Game>> Retrieve(string name, Guid publisherId)
+        public async Task<List<Game>> RetrieveByPublisher(Guid publisherId)
         {
             var games = new List<Game>();
 
-            var command = $"select * from Games where Name ='{name}' and PublisherId ='{publisherId}'";
+            var command = $"select Games.Id, Games.Name, Games.PublisherId, Games.Price, Publishers.Name as 'PublisherName' from Games inner join Publishers on Games.PublisherId = Publishers.Id where PublisherId ='{publisherId}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
@@ -84,6 +112,7 @@ namespace ApiGameCatalog.Repositories
                     Id = (Guid)sqlDataReader["Id"],
                     Name = (string)sqlDataReader["Name"],
                     PublisherId = (Guid)sqlDataReader["PublisherId"],
+                    Publisher = new Publisher { Id = (Guid)sqlDataReader["PublisherId"], Name = (string)sqlDataReader["PublisherName"] },
                     Price = (double)sqlDataReader["Price"]
                 });
             }
@@ -96,7 +125,7 @@ namespace ApiGameCatalog.Repositories
         {
             Game game = null;
 
-            var command = $"select * from Games where Id = '{id}'";
+            var command = $"select Games.Id, Games.Name, Games.PublisherId, Games.Price, Publishers.Name as 'PublisherName' from Games inner join Publishers on Games.PublisherId = Publishers.Id where Games.Id = '{id}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
@@ -109,6 +138,7 @@ namespace ApiGameCatalog.Repositories
                     Id = (Guid)sqlDataReader["Id"],
                     Name = (string)sqlDataReader["Name"],
                     PublisherId = (Guid)sqlDataReader["PublisherId"],
+                    Publisher = new Publisher { Id = (Guid)sqlDataReader["PublisherId"],Name = (string)sqlDataReader["PublisherName"]},
                     Price = (double)sqlDataReader["Price"]
                 };
             }

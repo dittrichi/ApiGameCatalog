@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiGameCatalog.Repositories
-{
+{/*
     public class GameRepository : IGameRepository
     {
         private static Dictionary<Guid, Game> games = new Dictionary<Guid, Game>()
@@ -71,5 +71,5 @@ namespace ApiGameCatalog.Repositories
         {
             //Close database connection 
         }
-    }
+    }*/
 }

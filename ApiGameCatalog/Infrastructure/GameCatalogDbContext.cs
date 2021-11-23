@@ -20,6 +20,9 @@ namespace ApiGameCatalog.Repositories
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Game> Game { get; set; }
+        public virtual DbSet<Game> Game { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Publisher> Publisher { get; set; }
+
     }    
 }
