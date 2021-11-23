@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ namespace ApiGameCatalog.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class LifeCycleIDController : ControllerBase
     {
         //To execute the test, just run the application and go to https://localhost:44322/api/v1/LifeCycleID

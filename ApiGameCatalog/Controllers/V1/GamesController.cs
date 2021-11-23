@@ -14,7 +14,7 @@ namespace ApiGameCatalog.Controllers.V1
 {
     [Route("api/V1/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class GamesController : ControllerBase
     {
         private readonly IGameService _gameService;

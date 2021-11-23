@@ -2,6 +2,7 @@
 using ApiGameCatalog.InputModel.Publisher;
 using ApiGameCatalog.Services;
 using ApiGameCatalog.ViewModel.Publisher;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace ApiGameCatalog.Controllers.V1
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PublisherController : ControllerBase
     {
         private readonly IPublisherService _publisherService;
